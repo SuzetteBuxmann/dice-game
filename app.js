@@ -21,6 +21,7 @@ init();
 
 function throwDice() {
 	if(gamePlay) {
+	maxPlay();
 	//random number between 1 and 6 for dice
 	randomNum1 = Math.floor((Math.random()*6)+1);
 	randomNum2 = Math.floor((Math.random()*6)+1);
@@ -42,6 +43,7 @@ function throwDice() {
 
 function changePlayer() {
 	if(gamePlay) {
+	maxPlay();
 	document.querySelector("#current-"+activePlayer).textContent = 0;
 	if(randomNum1!==1 && randomNum2!==1) {
 		var score = parseInt(scores[activePlayer]);
@@ -73,6 +75,7 @@ function hideDice() {
 }
 
 function init() {
+	maxPlay();
 	gamePlay = true;
 	console.log(playUntil);
 	activePlayer = 0;
