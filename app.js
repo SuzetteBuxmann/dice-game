@@ -14,51 +14,50 @@ Change the game to follow these rules:
 2. Add an input field to the HTML where players can set the winning score, so that they can change the predefined score of 100. (Hint: you can read that value with the .value property in JavaScript. This is a good oportunity to use google to figure this out :)
 3. Add another dice to the game, so that there are two dices now. The player looses his current score when one of them is a 1. (Hint: you will need CSS to position the second dice, so take a look at the CSS code for the first one.)
 */
-var randomNum1, randomNum2, roundScore, scores, activePlayer, dice1, dice2, btnThrow, btnHold, btnNew, btnSet, playUntil, gamePlay;
+var randomNum, roundScore, scores, activePlayer, dice, btnThrow, btnHold, btnNew;
+btnThrow = document.querySelector(".btn-roll");
+btnHold = document.querySelector(".btn-hold");
+btnNew = document.querySelector(".btn-new");
+dice = document.querySelector(".dice");
 
-
-init();
+init(false);
 
 function throwDice() {
-	if(gamePlay) {
-	maxPlay();
 	//random number between 1 and 6 for dice
-	randomNum1 = Math.floor((Math.random()*6)+1);
-	randomNum2 = Math.floor((Math.random()*6)+1);
+	randomNum = Math.floor((Math.random()*6)+1);
 	//set the dice image
-	dice1.setAttribute("src", "dice-"+randomNum1+".png");
-	dice1.style.display = "block";
-	dice2.setAttribute("src", "dice-"+randomNum2+".png");
-	dice2.style.display = "block";
+	dice.setAttribute("src", "dice-"+randomNum+".png");
+	dice.style.display = "block";
 	
-	if(randomNum1!==1 && randomNum2!==1) {
+	if(randomNum!==1) {
 		//current score
-		roundScore += (randomNum1+randomNum2);
-		console.log("round sc: "+roundScore+" (random: "+randomNum1+" and "+randomNum2+")");
+		roundScore += randomNum;
+		console.log("round sc: "+roundScore+" (random: "+randomNum+")");
 		document.querySelector("#current-"+activePlayer).innerHTML = "<strong>"+roundScore+"</strong>";
 	} else {
 		 changePlayer();
 	}
-}}
+}
 
 function changePlayer() {
-	if(gamePlay) {
-	maxPlay();
 	document.querySelector("#current-"+activePlayer).textContent = 0;
-	if(randomNum1!==1 && randomNum2!==1) {
+	if(randomNum!==1) {
 		var score = parseInt(scores[activePlayer]);
 		score += roundScore;
 		scores[activePlayer] = score;
-		document.querySelector("#score-"+activePlayer).textContent = score;		
+		document.querySelector("#score-"+activePlayer).textContent = score;
+		
 	}
 	
-	if(scores[activePlayer]>=playUntil) {
+	if(scores[activePlayer]>=25) {
 		document.querySelector("#name-" + activePlayer).textContent = 'Winner!';
 		document.querySelector(".player-"+activePlayer+"-panel").classList.add("winner");
 		document.querySelector(".player-"+activePlayer+"-panel").classList.remove("active");
 		hideDice();
-		gamePlay = false;
+		btnThrow.style.display = "none";
+		btnHold.style.display = "none";
 	} else {
+		
 		console.log("round sc: "+roundScore+" , total sc: "+scores[activePlayer]);
 		roundScore = 0;
 
@@ -66,27 +65,19 @@ function changePlayer() {
 		//change the active player
 		activePlayer===0 ? activePlayer=1 : activePlayer=0;
 		document.querySelector(".player-"+activePlayer+"-panel").classList.toggle("active");
-	}	
-}}
-
-function hideDice() {
-	dice1.style.display = "none";
-	dice2.style.display = "none";
+	}
+	
+	
 }
 
-function init() {
-	maxPlay();
-	gamePlay = true;
-	console.log(playUntil);
+function hideDice() {
+	dice.style.display = "none";
+}
+
+function init(bool) {
 	activePlayer = 0;
 	scores = [0,0]; //total scores
 	roundScore = 0; // current score
-	btnThrow = document.querySelector(".btn-roll");
-	btnHold = document.querySelector(".btn-hold");
-	btnNew = document.querySelector(".btn-new");
-	btnSet = document.querySelector(".btn-set");
-	dice1 = document.querySelector(".dice1");
-	dice2 = document.querySelector(".dice2");
 	
 	for(var i=0; i<scores.length; i++) {
 		document.querySelector("#current-"+i).textContent = 0;
@@ -96,21 +87,17 @@ function init() {
 		document.querySelector(".player-"+i+"-panel").classList.remove('active');
 	}
     document.querySelector('.player-0-panel').classList.add('active');
-	hideDice();		
-}
-
-function maxPlay() {
-	var inputMax = btnSet.value;
-	if(isNaN(inputMax)) {
-		playUntil = 100;
-		btnSet.textContent = playUntil;
+	hideDice();	
+	
+	if(bool) {
+		btnThrow.style.display = "block";
+		btnHold.style.display = "block";
 	} else {
-		playUntil = inputMax;
+		btnThrow.style.display = "none";
+		btnHold.style.display = "none";
 	}
-return playUntil;
 }
 
 btnThrow.addEventListener("click", throwDice);
 btnHold.addEventListener("click", changePlayer);
-btnNew.addEventListener("click", init);//check first challenge for bind solution
-btnSet.addEventListener("click", maxPlay);
+btnNew.addEventListener("click", init.bind(this, true));
