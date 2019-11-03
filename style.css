@@ -121,6 +121,23 @@ button {
     transition: background-color 0.3s, color 0.3s;
 }
 
+input {
+    position: absolute;
+    width: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #555;
+    background: none;
+    border: 1px solid light-gray;
+	padding: 5px;
+    font-family: Lato;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 300;
+    transition: background-color 0.3s, color 0.3s;
+	text-align: center;
+}
+
 button:hover { font-weight: 600; }
 button:hover i { margin-right: 20px; }
 
@@ -133,20 +150,37 @@ i {
     display: inline-block;
     margin-right: 15px;
     font-size: 32px;
+	font-weight: 500;
     line-height: 1;
     vertical-align: text-top;
     margin-top: -4px;
     transition: margin 0.3s;
 }
 
-.btn-new { top: 45px;}
-.btn-roll { top: 403px;}
-.btn-hold { top: 467px;}
+.input-label { 
+	position: absolute;
+	margin-left: 46.5%;
+	top: 90px;
+}
+.input-max { top: 115px;}
+.btn-set { top: 165px; 	font-size: 1em; }
+.btn-new { top: 378px;}
+.btn-roll { top: 433px;}
+.btn-hold { top: 490px;}
 
-.dice {
+.dice1 {
     position: absolute;
-    left: 50%;
-    top: 178px;
+    left: 44%;
+    top: 208px;
+    transform: translateX(-50%);
+    height: 100px;
+    box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);
+}
+
+.dice2 {
+    position: absolute;
+    left: 56%;
+    top: 208px;
     transform: translateX(-50%);
     height: 100px;
     box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);
